@@ -4,3 +4,7 @@ x64
 log.txt
 *.user
 db_test.sql
+
+hashdyn/.vs
+hashdyn/x64
+hashdyn/*.user

@@ -14,88 +14,18 @@ namespace Sudoku {
 	public:
 		//char* availableChars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\0";
 
-		NewAccForm(Form^ loginForm) {
-			InitializeComponent();
-
-			this->loginForm = loginForm;
-		}
+		NewAccForm(Form^ loginForm);
 
 	protected:
-		~NewAccForm() {
-			if (this->Visible) {
-				GoBack();
-			}
-
-			if (components) {
-				delete components;
-			}
-		}
+		~NewAccForm();
 
 	private:
 		Form^ loginForm;
 
-		void GoBack() {
-			this->Hide();
-			loginForm->Show();
-		}
-
-		bool IsValidCharacter(char ch) {
-			char ach;
-			for (int i = 0; AVAL_CHARS[i]; i++) {
-				ach = AVAL_CHARS[i];
-				if (ch == ach) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		bool CheckLogin(System::String^ login) {  // used for both username and password
-			if (login->Length < 4 || login->Length > 20) {
-				return false;
-			}
-
-			char ch;
-			for (int i = 0; i < login->Length; i++) {
-				ch = login[i];
-				if (!IsValidCharacter(ch)) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		Account AddNewAccount(System::String^ name, System::String^ pass) {
-			Account a;
-
-			if (!CheckLogin(name)) {
-				boxStatus->Text = L"Invalid username";
-				return a;
-			}
-			if (!CheckLogin(pass)) {
-				boxStatus->Text = L"Invalid password";
-				return a;
-			}
-
-			//connect to the db and try to set name and pass
-			bool nameAvailable = Account::CheckNameAvailability(conv(name));
-			if (!nameAvailable) {
-				boxStatus->Text = L"The username already exists";
-				return a;
-			}
-
-			try {
-				return Account::CreateNew(conv(name), conv(pass));
-			}
-			catch (exep& e) {
-				logl(e.msg, true);
-				boxStatus->Text = L"Something went wrong when creating the Account";
-				return a;
-			}
-		}
-
+		void GoBack();
+		bool IsValidCharacter(char ch);
+		bool CheckLogin(System::String^ login);  // used for both username and password
+		Account AddNewAccount(System::String^ name, System::String^ pass);
 
 	private: System::Windows::Forms::Button^ buttonBack;
 	private: System::Windows::Forms::TextBox^ boxStatus;
@@ -255,17 +185,9 @@ namespace Sudoku {
 
 		}
 #pragma endregion
-private: System::Void buttonBack_Click(System::Object^ sender, System::EventArgs^ e) {
-	GoBack();
-}
-private: System::Void buttonSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
-	System::String^ name = boxLoginEnter->Text;
-	System::String^ pass = boxPassEnter->Text;
 
-	Account a = AddNewAccount(name, pass);
-	if (a.wasFound) {
-		boxStatus->Text = L"Account has been created, go back and log in";
-	}
-}
+	private: System::Void buttonBack_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonSubmit_Click(System::Object^ sender, System::EventArgs^ e);
+
 };
 }

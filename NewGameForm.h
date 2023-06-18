@@ -16,39 +16,13 @@ namespace Sudoku {
 	public ref class NewGameForm : public System::Windows::Forms::Form
 	{
 	public:
-		NewGameForm(Form^ menuForm, int accId) {
-			InitializeComponent();
-
-			this->menuForm = menuForm;
-			this->accId = accId;
-			size = 0;
-			diff = Difficulty::None;
-
-			// https://stackoverflow.com/questions/259676/stopping-a-function-executed-on-a-winform-button-click
-			//                                            VVV
-			// https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker?redirectedfrom=MSDN&view=net-7.0
-
-			bgWorker = nullptr;
-			game = nullptr;
-			stopFromClosing = false;
-			buttonCancel->Hide();
-
-			InitializeBGWorker();
-		}
+		NewGameForm(Form^ menuForm, int accId);
 
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~NewGameForm() {
-			if (this->Visible) {
-				GoBack();
-			}
-
-			if (components) {
-				delete components;
-			}
-		}
+		~NewGameForm();
 
 	private:
 		Form^ menuForm;
@@ -59,23 +33,9 @@ namespace Sudoku {
 		Game* game;
 		bool stopFromClosing;
 
-		void InitializeBGWorker() {
-			bgWorker = gcnew BackgroundWorker();
-			bgWorker->WorkerSupportsCancellation = true;
-			bgWorker->DoWork += gcnew System::ComponentModel::DoWorkEventHandler(this, &Sudoku::NewGameForm::OnDoWork);
-			bgWorker->RunWorkerCompleted += gcnew System::ComponentModel::RunWorkerCompletedEventHandler(this, &Sudoku::NewGameForm::OnWorkerCompleted);
-		}
-
-		void CreateNewGame(int s, Difficulty d, BackgroundWorker^ w, DoWorkEventArgs^ e) {
-			game = new Game(s, d, accId);
-			game->GenerateNewBoard(w, e);
-			game->GenerateLevel();
-		}
-
-		void GoBack() {
-			this->Hide();
-			menuForm->Show();
-		}
+		void InitializeBGWorker();
+		void CreateNewGame(int s, Difficulty d, BackgroundWorker^ w, DoWorkEventArgs^ e);
+		void GoBack();
 
 	private: System::Windows::Forms::Button^ buttonCancel;
 	private: System::Windows::Forms::Button^ buttonBack;
@@ -301,104 +261,20 @@ namespace Sudoku {
 		}
 #pragma endregion
 
-private: System::Void buttonCancel_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (!bgWorker->CancellationPending) {
-		bgWorker->CancelAsync();
-	}
-}
+	private: System::Void buttonCancel_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonBack_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonCreate_Click(System::Object^ sender, System::EventArgs^ e);
 
-private: System::Void buttonBack_Click(System::Object^ sender, System::EventArgs^ e) {
-	GoBack();
-}
+	private: System::Void buttonSize4_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonSize9_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonSize16_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonDiffEasy_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonDiffMedi_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonDiffHard_Click(System::Object^ sender, System::EventArgs^ e);
 
-private: System::Void buttonCreate_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (size == 0 || diff == Difficulty::None) {
-		boxStatus->Text = L"Select size and difficulty first";
-		return;
-	}
-
-	boxStatus->Text = L"Generating a new level...";
-	buttonCreate->Enabled = false;
-	stopFromClosing = true;
-
-	buttonBack->Enabled = false;
-	buttonBack->Hide();
-
-	buttonCancel->Enabled = true;
-	buttonCancel->Show();
-	buttonCancel->Focus();
-
-	bgWorker->RunWorkerAsync();
-}
-
-private: System::Void buttonSize4_Click(System::Object^ sender, System::EventArgs^ e) {
-	size = 4;
-	boxSize->Text = L"Selected size: 4x4";
-}
-private: System::Void buttonSize9_Click(System::Object^ sender, System::EventArgs^ e) {
-	size = 9;
-	boxSize->Text = L"Selected size: 9x9";
-}
-private: System::Void buttonSize16_Click(System::Object^ sender, System::EventArgs^ e) {
-	size = 16;
-	boxSize->Text = L"Selected size: 16x16";
-}
-private: System::Void buttonDiffEasy_Click(System::Object^ sender, System::EventArgs^ e) {
-	diff = Difficulty::Easy;
-	boxDifficulty->Text = L"Selected difficulty: Easy";
-}
-private: System::Void buttonDiffMedi_Click(System::Object^ sender, System::EventArgs^ e) {
-	diff = Difficulty::Medium;
-	boxDifficulty->Text = L"Selected difficulty: Medi";
-}
-private: System::Void buttonDiffHard_Click(System::Object^ sender, System::EventArgs^ e) {
-	diff = Difficulty::Hard;
-	boxDifficulty->Text = L"Selected difficulty: Hard";
-}
-
-private: System::Void OnDoWork(System::Object^ sender, DoWorkEventArgs^ e) {
-	auto w = safe_cast<BackgroundWorker^>(sender);
-	CreateNewGame(size, diff, w, e);
-}
-
-private: System::Void OnWorkerCompleted(System::Object^ sender, RunWorkerCompletedEventArgs^ e) {
-	if (e->Error) {
-		boxStatus->Text = L"An error occured when generating the level";
-	}
-	else if (e->Cancelled) {
-		boxStatus->Text = L"Cancelled";
-	}
-	else {
-		try {
-			game->LoadNewGameToDB();
-			boxStatus->Text = L"New level created successfully";
-		}
-		catch (exep& e) {
-			logl(e.msg);
-			boxStatus->Text = L"An error occured when generating the level";
-		}
-	}
-
-	delete game;
-	game = nullptr;
-
-	buttonCancel->Enabled = false;
-	buttonCancel->Hide();
-
-	stopFromClosing = false;
-
-	buttonBack->Enabled = true;
-	buttonBack->Show();
-	buttonBack->Focus();
-
-	buttonCreate->Enabled = true;
-}
-
-private: System::Void NewGameForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
-	if (stopFromClosing) {
-		e->Cancel = true;
-	}
-}
+	private: System::Void OnDoWork(System::Object^ sender, DoWorkEventArgs^ e);
+	private: System::Void OnWorkerCompleted(System::Object^ sender, RunWorkerCompletedEventArgs^ e);
+	private: System::Void NewGameForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e);
 
 };
 }

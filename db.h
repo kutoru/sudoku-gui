@@ -6,7 +6,7 @@
 
 #define HOST "127.0.0.1"
 #define USER "root"
-#define PASS "727WYSI"
+#define PASS ""  // enter your root pass here
 #define DATABASE "sudoku"
 #define PORT 3306
 

@@ -4,7 +4,7 @@
 #include <chrono>
 #include <string>
 #include <random>
-#include "hashdyn.h"
+#include "hashdyn.h"  // Delete this if you don't want to compile hashdyn
 
 #ifndef AVAL_CHARS
 #define AVAL_CHARS "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&-_\0"
@@ -120,6 +120,7 @@ inline std::string EncryptPassword(std::string password, std::string key) {
 		}
 	}
 
+	// Delete the following 6 lines if you don't care about the encryption
 	char* charHash = get_sha256(newPass.c_str(), newPass.size());
 	int hashSize = 64;  // sha256 is always 64 characters long, everything else is trash
 	std::string hash(hashSize, '_');

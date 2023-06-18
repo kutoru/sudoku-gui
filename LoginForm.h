@@ -13,20 +13,10 @@ namespace Sudoku {
 
 	public ref class LoginForm : public System::Windows::Forms::Form {
 	public:
-		LoginForm(void) {
-			InitializeComponent();
-
-			LoadDb();
-		}
+		LoginForm(void);
 
 	protected:
-		~LoginForm() {
-			if (components) {
-				delete components;
-			}
-
-			Application::Exit();
-		}
+		~LoginForm();
 
 		//void OnShown(System::EventArgs^ e) override {
 		//	__super::OnShown(e);
@@ -36,30 +26,9 @@ namespace Sudoku {
 		NewAccForm^ newAccForm = nullptr;
 		MenuForm^ menuForm = nullptr;
 
-		void LoadDb() {
-			try {
-				db.initialize();
-			}
-			catch (...) {
-				buttonSubmit->Enabled = false;
-				buttonCreate->Enabled = false;
-				boxStatus->Text = L"Could not connect to the database";
-			}
-		}
-
-		void OnSuccessfullLogin(Account a) {
-			menuForm = gcnew MenuForm(this, a);
-			this->Hide();
-			menuForm->Show();
-		}
-
-		Account Login(System::String^ name, System::String^ pass) {
-			Account a = Account::CheckPassword(conv(name), conv(pass));
-			if (!a.wasFound) {
-				boxStatus->Text = L"Username or password are wrong";
-			}
-			return a;
-		}
+		void LoadDb();
+		void OnSuccessfullLogin(Account a);
+		Account Login(System::String^ name, System::String^ pass);
 
 	private: System::Windows::Forms::TextBox^ boxInfo;
 	private: System::Windows::Forms::TextBox^ boxLoginEnter;
@@ -203,34 +172,9 @@ namespace Sudoku {
 		}
 #pragma endregion
 
-private: System::Void LoginForm_VisibleChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (this->Visible) {
-		if (newAccForm) {
-			newAccForm->Close();
-			newAccForm = nullptr;
-		}
-		else if (menuForm) {
-			menuForm->Close();
-			menuForm = nullptr;
-		}
-	}
-}
-
-private: System::Void buttonCreate_Click(System::Object^ sender, System::EventArgs^ e) {
-	newAccForm = gcnew NewAccForm(this);
-	this->Hide();
-	newAccForm->Show();
-}
-
-private: System::Void buttonSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
-	System::String^ name = boxLoginEnter->Text;
-	System::String^ pass = boxPassEnter->Text;
-
-	Account a = Login(name, pass);
-	if (a.wasFound) {
-		OnSuccessfullLogin(a);
-	}
-}
+	private: System::Void LoginForm_VisibleChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonCreate_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void buttonSubmit_Click(System::Object^ sender, System::EventArgs^ e);
 
 };
 }
