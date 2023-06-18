@@ -141,21 +141,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="other\Account.cpp" />
-    <ClCompile Include="other\Board.cpp" />
-    <ClCompile Include="other\db.cpp" />
-    <ClCompile Include="other\Game.cpp" />
+    <ClCompile Include="Account.cpp" />
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="db.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="other\Validation.cpp" />
+    <ClCompile Include="Validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NewGameForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="other\Account.h" />
-    <ClInclude Include="other\Board.h" />
-    <ClInclude Include="other\db.h" />
-    <ClInclude Include="other\Game.h" />
+    <ClInclude Include="Account.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="db.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="extra.h" />
     <ClInclude Include="LoginForm.h">
       <FileType>CppForm</FileType>
@@ -166,9 +166,9 @@
     <ClInclude Include="NewAccForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="other\date.h" />
-    <ClInclude Include="other\util.h" />
-    <ClInclude Include="other\Validation.h" />
+    <ClInclude Include="date.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="Validation.h" />
     <ClInclude Include="PlayForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -198,11 +198,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
     <None Include=".todo" />
-    <None Include="other\create_db.sql" />
+    <None Include="create_db.sql" />
+    <None Include="db_test.sql" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="imports.txt" />
+    <Text Include="log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

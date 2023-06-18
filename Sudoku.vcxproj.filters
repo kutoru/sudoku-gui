@@ -13,24 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{7e707005-4714-48ff-82aa-d846a29b2e80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Validation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="db.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="other\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="other\Account.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="other\Validation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="other\Board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="other\db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,28 +47,28 @@
     <ClInclude Include="NewAccForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\util.h">
+    <ClInclude Include="util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\db.h">
+    <ClInclude Include="db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\Account.h">
+    <ClInclude Include="Account.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="extra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\date.h">
+    <ClInclude Include="date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\Game.h">
+    <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\Board.h">
+    <ClInclude Include="Board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="other\Validation.h">
+    <ClInclude Include="Validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NewGameForm.h">
@@ -82,10 +85,28 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="other\create_db.sql" />
-    <None Include=".todo" />
+    <None Include="create_db.sql">
+      <Filter>Other</Filter>
+    </None>
+    <None Include=".todo">
+      <Filter>Other</Filter>
+    </None>
+    <None Include=".gitattributes">
+      <Filter>Other</Filter>
+    </None>
+    <None Include=".gitignore">
+      <Filter>Other</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>Other</Filter>
+    </None>
+    <None Include="db_test.sql">
+      <Filter>Other</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="imports.txt" />
+    <Text Include="log.txt">
+      <Filter>Other</Filter>
+    </Text>
   </ItemGroup>
 </Project>
