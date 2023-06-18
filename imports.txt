@@ -1,0 +1,10 @@
+import structure:
+date.h
+util.h
+db.h
+account.h
+extra.h
+NewAccForm.h
+LoginForm.h
+main.cpp
+(this is outdated)

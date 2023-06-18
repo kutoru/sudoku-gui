@@ -1,0 +1,4 @@
+make password enctyption fun; DONE
+revise board and game classes?; probably not
+change the completed variable from bool to enum('N', 'Y', 'G') where N means no, Y means yes, G means the user gave up; DONE
+maybe add a timeout for actions; NO
